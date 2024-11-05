@@ -1,0 +1,13 @@
+Take format, search '%' and what's after.
+
+Checks:
+- If no '%' needs to be no args.
+- If no char after '%'.
+
+Goals:
+- How to integrate well libft. **OK**
+- Learn how to make Makefiles who make Makefiles. **OK**
+
+Needs:
+- Parse *format, check '%?' inside, write start, call needed function to write what's required
+in '%?' and continue to do the same thing until the end.
