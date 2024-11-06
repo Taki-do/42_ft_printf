@@ -10,16 +10,16 @@ OBJ_BONUS = $(SRC_BONUS:.c=.o)
 CC = gcc
 FLAGS = -Wall -Wextra -Werror
 
-all: $(LIBFT_LIB) $(NAME)
+all: $(NAME)
 
 $(LIBFT_LIB):
 	make -C $(PATH_LIBFT)
 
-bonus : $(OBJ) $(OBJ_BONUS)
+bonus : $(LIBFT_LIB) $(OBJ) $(OBJ_BONUS)
 	cp $(LIBFT_LIB) $(NAME)
 	ar rcs $(NAME) $(OBJ) $(OBJ_BONUS)
 
-$(NAME) : $(OBJ) 
+$(NAME) : $(LIBFT_LIB) $(OBJ) 
 	cp $(LIBFT_LIB) $(NAME)
 	ar rcs $(NAME) $(OBJ)
 

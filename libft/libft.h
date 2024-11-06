@@ -96,5 +96,6 @@ void	ft_putunbr(unsigned int nb);
 void	ft_lowhexa(unsigned int dec);
 void	ft_upphexa(unsigned int dec);
 char	*ft_strrev(char *str);
+int		ft_is_strchr(const char *s, int c);
 
 #endif

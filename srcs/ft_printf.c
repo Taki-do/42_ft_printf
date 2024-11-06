@@ -15,10 +15,10 @@
 int	ft_printf(const char *format, ...)
 {
 	int		i;
+	va_list	args;
 
-	i = 0;
-	va_list args;
 	va_start(args, format);
+	i = 0;
 	while (format[i])
 	{
 		if (format[i] == '%' && ft_is_strstr(format + i, "%%"))
@@ -27,7 +27,7 @@ int	ft_printf(const char *format, ...)
 			i++;
 		}
 		else if (format[i] == '%')
-			ft_parse_input(format + i++, args);
+			ft_parse_input(format[++i], args);
 		else
 			write(1, format + i, 1);
 		i++;
@@ -35,4 +35,3 @@ int	ft_printf(const char *format, ...)
 	va_end(args);
 	return (0);
 }
-// tes trop fort a quand minishell ?

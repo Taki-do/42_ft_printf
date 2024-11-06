@@ -21,7 +21,7 @@
 
 int		ft_printf(const char *format, ...);
 
-void	ft_parse_input(const char *format, va_list args);
+void	ft_parse_input(const char format, va_list args);
 void	ft_printaddr(void *addr);
 
 #endif

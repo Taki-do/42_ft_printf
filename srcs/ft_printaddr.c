@@ -31,14 +31,15 @@ void	ft_inhex(unsigned char print)
 
 void	ft_printaddr(void *addr)
 {
-	size_t			i;
+	int				i;
 	unsigned char	*print;
 
-	i = 0;
+	i = 7;
 	print = (unsigned char *)&addr;
-	while (print[i])
+	ft_putstr("0x");
+	while (i >= 0)
 	{
 		ft_inhex(print[i]);
-		i++;
+		i--;
 	}
 }
