@@ -3,7 +3,7 @@ PATH_SRC = srcs/
 PATH_INC = includes/
 PATH_LIBFT = libft/
 LIBFT_LIB = $(PATH_LIBFT)libft.a
-SRC = $(PATH_SRC)ft_printf.c $(PATH_SRC)ft_check_format.c
+SRC = $(PATH_SRC)ft_printf.c $(PATH_SRC)ft_check_format.c $(PATH_SRC)ft_printaddr.c
 SRC_BONUS = 
 OBJ = $(SRC:.c=.o)
 OBJ_BONUS = $(SRC_BONUS:.c=.o)

@@ -1,38 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_printaddr.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: taomalbe <taomalbe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/04 18:19:28 by taomalbe          #+#    #+#             */
-/*   Updated: 2024/11/06 15:37:52 by taomalbe         ###   ########.fr       */
+/*   Created: 2024/11/06 15:41:39 by taomalbe          #+#    #+#             */
+/*   Updated: 2024/11/06 16:00:12 by taomalbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_printf.h"
 
-int	ft_printf(const char *format, ...)
+void	ft_inhex(unsigned char print)
 {
-	int		i;
+	size_t	i;
+	char	stock[10];
+	char	*hex;
 
 	i = 0;
-	va_list args;
-	va_start(args, format);
-	while (format[i])
+	hex = "0123456789abcdef";
+	while (print)
 	{
-		if (format[i] == '%' && ft_is_strstr(format + i, "%%"))
-		{
-			ft_putchar('%');
-			i++;
-		}
-		else if (format[i] == '%')
-			ft_parse_input(format + i++, args);
-		else
-			write(1, format + i, 1);
+		stock[i] = hex[print % 16];
+		print /= 16;
 		i++;
 	}
-	va_end(args);
-	return (0);
+	ft_putstr(ft_strrev(stock));
 }
-// tes trop fort a quand minishell ?
+
+void	ft_printaddr(void *addr)
+{
+	size_t			i;
+	unsigned char	*print;
+
+	i = 0;
+	print = (unsigned char *)&addr;
+	while (print[i])
+	{
+		ft_inhex(print[i]);
+		i++;
+	}
+}
