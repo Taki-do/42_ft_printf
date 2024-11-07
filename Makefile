@@ -1,6 +1,6 @@
 NAME = libftprintf.a
 PATH_SRC = srcs/
-PATH_INC = includes/
+#PATH_INC = includes/
 PATH_LIBFT = libft/
 LIBFT_LIB = $(PATH_LIBFT)libft.a
 SRC = $(PATH_SRC)ft_printf.c $(PATH_SRC)ft_check_format.c $(PATH_SRC)ft_printaddr.c
