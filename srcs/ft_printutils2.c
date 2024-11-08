@@ -39,6 +39,8 @@ int	ft_hexa_len(unsigned int dec, int ul)
 		hexa = "0123456789abcdef";
 	else
 		hexa = "0123456789ABCDEF";
+	if (dec == 0)
+		return (ft_putchar_len('0'));
 	while (dec)
 	{
 		stock[i] = hexa[dec % 16];

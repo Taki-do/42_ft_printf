@@ -51,14 +51,16 @@ int	ft_putstr_len(const char *str)
 	return (i);
 }
 
-int	ft_inhex(unsigned char print)
+int	ft_printhex(unsigned long print)
 {
 	size_t	i;
-	char	stock[10];
+	char	stock[20];
 	char	*hex;
 
 	i = 0;
 	hex = "0123456789abcdef";
+	if (print == 0)
+		return (ft_putchar_len('0'));
 	while (print)
 	{
 		stock[i] = hex[print % 16];
@@ -71,17 +73,13 @@ int	ft_inhex(unsigned char print)
 
 int	ft_printaddr(void *addr)
 {
-	int				i;
 	int				count;
-	unsigned char	*print;
+	unsigned long	print;
 
-	i = 7;
-	print = (unsigned char *)&addr;
+	count = 0;
+	print = (unsigned long)addr;
+	if (print == 0)
+		return (count + ft_putstr_len("(nil)"));
 	count = ft_putstr_len("0x");
-	while (i >= 0)
-	{
-		count += ft_inhex(print[i]);
-		i--;
-	}
-	return (count);
+	return (count + ft_printhex(print));
 }
