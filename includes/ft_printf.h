@@ -20,8 +20,13 @@
 # include <stdlib.h>
 
 int		ft_printf(const char *format, ...);
-
-void	ft_parse_input(const char format, va_list args);
-void	ft_printaddr(void *addr);
+int		ft_printaddr(void *addr);
+int		ft_putnbr_len(int nb);
+int		ft_putunbr_len(unsigned int nb);
+int		ft_putchar_len(const char c);
+int		ft_putstr_len(const char *str);
+int		ft_inhex(unsigned char print);
+int		ft_printaddr(void *addr);
+int		ft_hexa_len(unsigned int dec, int ul);
 
 #endif
