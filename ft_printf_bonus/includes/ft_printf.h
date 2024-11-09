@@ -6,7 +6,7 @@
 /*   By: taomalbe <taomalbe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 18:18:22 by taomalbe          #+#    #+#             */
-/*   Updated: 2024/11/08 17:45:37 by taomalbe         ###   ########.fr       */
+/*   Updated: 2024/11/09 14:28:14 by taomalbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct s_flag
 	int	prefix;
 	int	precise;
 	int	size;
+	int	size2;
 }	t_flag;
 
 int		ft_printf(const char *format, ...);

@@ -6,7 +6,7 @@
 /*   By: taomalbe <taomalbe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 18:19:28 by taomalbe          #+#    #+#             */
-/*   Updated: 2024/11/08 18:06:55 by taomalbe         ###   ########.fr       */
+/*   Updated: 2024/11/09 14:48:06 by taomalbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	ft_init_t_flag(t_flag *flags)
 	flags->spaces = 0;
 	flags->zeros = 0;
 	flags->size = 0;
+	flags->size2 = 0;
 }
 
 int	ft_flags_input(const char *format, va_list args, int *cursor)
@@ -72,7 +73,7 @@ int	ft_flags_input(const char *format, va_list args, int *cursor)
 			flags.align = 1;
 		else if (format[i] == '0')
 			flags.zeros = 1;
-		else if (format[i] == '.' && !flags.size)
+		else if (format[i] == '.')
 			flags.precise = 1;
 		else if (format[i] == '#')
 			flags.prefix = 1;
@@ -80,8 +81,16 @@ int	ft_flags_input(const char *format, va_list args, int *cursor)
 			flags.spaces = 1;
 		else if (format[i] == '+')
 			flags.sign = 1;
-		else if (format[i] >= '1' && format[i] <= '9' && !flags.size)
-			flags.size = ft_atoi(&format[i]);
+		else if (format[i] >= '1' && format[i] <= '9')
+		{
+			if (!flags.precise)
+				flags.size = ft_atoi(&format[i]);
+			else
+				flags.size2 = ft_atoi(&format[i]);
+			while (format[i] >= '0' && format[i] <= '9')
+				i++;
+			i--;
+		}
 		i++;
 	}
 	*cursor += i;

@@ -6,7 +6,7 @@
 /*   By: taomalbe <taomalbe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 15:41:39 by taomalbe          #+#    #+#             */
-/*   Updated: 2024/11/08 18:07:06 by taomalbe         ###   ########.fr       */
+/*   Updated: 2024/11/09 15:35:19 by taomalbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,41 @@ int	ft_putstr_len(const char *str, t_flag flags)
 	cnt = 0;
 	if (!str)
 	{
-		if (flags.precise)
-			return (0);
-		return (ft_putstr_len("(null)", flags));
+		ft_putstr("(null)");
+		return (6);
 	}
-	if (!flags.precise)
-		cnt += ft_align(flags.size, ft_strlen(str));
-	while (str[i] && i < flags.size)
-		ft_putchar(str[i++]);
-	return (i + cnt);
+	if (!flags.align && flags.size && flags.size2)
+	{
+		if (flags.size - flags.size2 > 0)
+			cnt += ft_align(flags.size, ft_strlen(str - flags.size2 - 1));
+		else
+			cnt += ft_align(flags.size, ft_strlen(str));	
+	}
+	while (str[i])
+	{
+		if (!flags.size2)
+		{
+			if ((i < flags.size || flags.align) && ((!flags.size && !flags.precise)
+				|| (flags.align) || (i < flags.size2)))
+				cnt += ft_putchar_len(str[i++]);
+			else
+				i++;
+		}
+		else
+			if ((i < flags.size2 || flags.align) && ((!flags.size && !flags.precise)
+				|| (flags.align) || (i < flags.size2)))
+				cnt += ft_putchar_len(str[i++]);
+			else
+				i++;
+	}
+	if (!flags.precise || flags.align)
+	{
+		if (!flags.size2)
+			cnt += ft_align(flags.size, ft_strlen(str));
+		else
+			cnt += ft_align(flags.size, ft_strlen(str - flags.size2 - 1));	
+	}
+	return (cnt);
 }
 
 int	ft_printhex(unsigned long print, t_flag flags)
