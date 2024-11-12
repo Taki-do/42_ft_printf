@@ -6,26 +6,22 @@
 /*   By: taomalbe <taomalbe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 15:41:39 by taomalbe          #+#    #+#             */
-/*   Updated: 2024/11/09 15:35:19 by taomalbe         ###   ########.fr       */
+/*   Updated: 2024/11/11 16:34:13 by taomalbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/ft_printf.h"
 
-int	ft_putnbr_len(int nb, t_flag flags)
+int	ft_putnbr_len(int nb, t_flag fl, const char format)
 {
 	int	count;
 
 	count = 0;
-	if (flags.sign == 1 && nb >= 0)
-		count += ft_putchar_len('+');
-	else if (flags.spaces == 1 || flags.precise == 1)
-		count += ft_align(flags.size, ft_nbr_size(nb));
-	else if (flags.zeros == 1)
-		count += ft_zeros(flags.size, ft_nbr_size(nb));
+	if (nb > 0)
+		ft_put_flags(fl, format);
 	ft_putnbr(nb);
 	if (nb == 0)
-		return (1 + count);
+		return (1);
 	if (nb < 0)
 	{
 		count++;
@@ -45,53 +41,19 @@ int	ft_putchar_len(const char c)
 	return (1);
 }
 
-int	ft_putstr_len(const char *str, t_flag flags)
+int	ft_putstr_len(const char *str)
 {
-	int	cnt;
 	int	i;
 
 	i = 0;
-	cnt = 0;
 	if (!str)
-	{
-		ft_putstr("(null)");
-		return (6);
-	}
-	if (!flags.align && flags.size && flags.size2)
-	{
-		if (flags.size - flags.size2 > 0)
-			cnt += ft_align(flags.size, ft_strlen(str - flags.size2 - 1));
-		else
-			cnt += ft_align(flags.size, ft_strlen(str));	
-	}
+		return (ft_putstr_len("(null)"));
 	while (str[i])
-	{
-		if (!flags.size2)
-		{
-			if ((i < flags.size || flags.align) && ((!flags.size && !flags.precise)
-				|| (flags.align) || (i < flags.size2)))
-				cnt += ft_putchar_len(str[i++]);
-			else
-				i++;
-		}
-		else
-			if ((i < flags.size2 || flags.align) && ((!flags.size && !flags.precise)
-				|| (flags.align) || (i < flags.size2)))
-				cnt += ft_putchar_len(str[i++]);
-			else
-				i++;
-	}
-	if (!flags.precise || flags.align)
-	{
-		if (!flags.size2)
-			cnt += ft_align(flags.size, ft_strlen(str));
-		else
-			cnt += ft_align(flags.size, ft_strlen(str - flags.size2 - 1));	
-	}
-	return (cnt);
+		ft_putchar(str[i++]);
+	return (i);
 }
 
-int	ft_printhex(unsigned long print, t_flag flags)
+int	ft_printhex(unsigned long print)
 {
 	size_t	i;
 	char	stock[20];
@@ -108,10 +70,10 @@ int	ft_printhex(unsigned long print, t_flag flags)
 		i++;
 	}
 	stock[i] = '\0';
-	return (ft_putstr_len(ft_strrev(stock), flags));
+	return (ft_putstr_len(ft_strrev(stock)));
 }
 
-int	ft_printaddr(void *addr, t_flag flags)
+int	ft_printaddr(void *addr)
 {
 	int				count;
 	unsigned long	print;
@@ -119,7 +81,7 @@ int	ft_printaddr(void *addr, t_flag flags)
 	count = 0;
 	print = (unsigned long)addr;
 	if (print == 0)
-		return (count + ft_putstr_len("(nil)", flags));
-	count = ft_putstr_len("0x", flags);
-	return (count + ft_printhex(print, flags));
+		return (count + ft_putstr_len("(nil)"));
+	count = ft_putstr_len("0x");
+	return (count + ft_printhex(print));
 }

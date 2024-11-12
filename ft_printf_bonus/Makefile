@@ -4,7 +4,7 @@ PATH_INC = includes/
 PATH_LIBFT = libft/
 LIBFT_LIB = $(PATH_LIBFT)libft.a
 SRC = $(PATH_SRC)ft_printf.c $(PATH_SRC)ft_printutils.c $(PATH_SRC)ft_printutils2.c
-SRC_BONUS = $(PATH_SRC)ft_utils_bonus.c
+SRC_BONUS = 
 OBJ = $(SRC:.c=.o)
 OBJ_BONUS = $(SRC_BONUS:.c=.o)
 CC = gcc

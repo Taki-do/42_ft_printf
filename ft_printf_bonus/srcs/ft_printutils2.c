@@ -6,7 +6,7 @@
 /*   By: taomalbe <taomalbe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 18:46:21 by taomalbe          #+#    #+#             */
-/*   Updated: 2024/11/08 19:01:14 by taomalbe         ###   ########.fr       */
+/*   Updated: 2024/11/11 16:35:50 by taomalbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,25 +28,20 @@ int	ft_putunbr_len(unsigned int nb)
 	return (count);
 }
 
-int	ft_hexa_len(unsigned int dec, int ul, int prefix, t_flag flags)
+int	ft_hexa_len(unsigned int dec, int ul, t_flag fl, const char format)
 {
-	int		cnt;
 	size_t	i;
 	char	*hexa;
 	char	stock[100];
 
 	i = 0;
-	cnt = 0;
+	ft_put_flags(fl, format);
 	if (ul == 0)
 		hexa = "0123456789abcdef";
 	else
 		hexa = "0123456789ABCDEF";
 	if (dec == 0)
 		return (ft_putchar_len('0'));
-	if (prefix == 1 && ul == 0)
-		cnt += ft_putstr_len("0x", flags);
-	else if (prefix == 1 && ul == 1)
-		cnt += ft_putstr_len("0X", flags);
 	while (dec)
 	{
 		stock[i] = hexa[dec % 16];
@@ -54,7 +49,7 @@ int	ft_hexa_len(unsigned int dec, int ul, int prefix, t_flag flags)
 		i++;
 	}
 	stock[i] = '\0';
-	return (ft_putstr_len(ft_strrev(stock), flags) + cnt);
+	return (ft_putstr_len(ft_strrev(stock)));
 }
 //If '%', while there valid flags, check if this can means someting ?
 // And after all dispatch
