@@ -6,7 +6,7 @@
 /*   By: taomalbe <taomalbe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 15:41:39 by taomalbe          #+#    #+#             */
-/*   Updated: 2024/11/11 16:34:13 by taomalbe         ###   ########.fr       */
+/*   Updated: 2024/11/12 18:37:15 by taomalbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,39 @@
 
 int	ft_putnbr_len(int nb, t_flag fl, const char format)
 {
+	int	tmp;
+	int	sign;
 	int	count;
 
 	count = 0;
-	if (nb > 0)
-		ft_put_flags(fl, format);
-	ft_putnbr(nb);
-	if (nb == 0)
-		return (1);
+	sign = 0;
 	if (nb < 0)
 	{
-		count++;
 		nb = -nb;
+		sign = 1;
 	}
-	while (nb)
+	if (nb == 0)
+		return (1);
+	tmp = nb;
+	while (tmp)
 	{
 		count++;
-		nb /= 10;
+		tmp /= 10;
+	}
+	//printf("here : %d\n", fl.number);
+	if (fl.align)
+	{
+		if (sign)
+			count += ft_putchar_len('-');
+		ft_putnbr(nb);
+		count += ft_put_flags(fl, format, count);
+	}
+	if (!fl.align)
+	{
+		count += ft_put_flags(fl, format, count + 1);
+		if (sign)
+			count += ft_putchar_len('-');
+		ft_putnbr(nb);
 	}
 	return (count);
 }
@@ -39,6 +55,33 @@ int	ft_putchar_len(const char c)
 {
 	write(1, &c, 1);
 	return (1);
+}
+
+int	ft_putstr_flag(const char *str, t_flag flag, const char format)
+{
+	int	i;
+	int	cnt;
+
+	i = 0;
+	cnt = 0;
+	//printf("flag.minwid = %d\n", flag.minwid);
+	if (!str)
+		cnt = ft_put_flags(flag, format, 0);
+	else if (!flag.precise)
+		cnt = ft_put_flags(flag, format, ft_strlen(str));
+	else if (!flag.number)
+		cnt = ft_put_flags(flag, format, 0);
+	if (flag.number && flag.precise)
+	{
+		if ((size_t)flag.number > ft_strlen(str))
+			flag.number = ft_strlen(str);
+		while (str[i] && i < flag.number)
+			ft_putchar(str[i++]);
+		cnt = ft_put_flags(flag, format, flag.number);
+	}
+	while (str[i] && !flag.align && !flag.precise)
+		ft_putchar(str[i++]);
+	return (cnt + i);
 }
 
 int	ft_putstr_len(const char *str)
