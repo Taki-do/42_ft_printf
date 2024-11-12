@@ -6,7 +6,7 @@
 /*   By: taomalbe <taomalbe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 13:08:57 by taomalbe          #+#    #+#             */
-/*   Updated: 2024/11/11 16:44:27 by taomalbe         ###   ########.fr       */
+/*   Updated: 2024/11/12 11:34:07 by taomalbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,10 @@ int	ft_put_flags(t_flag flag, const char format)
 	{
 		flag.sign = 0;
 		flag.space = 0;
-		if (format == 'x' || format == 'X')
+		if (format == 'x')
 			count += ft_putstr_len("0x");
+		if (format == 'X')
+			count += ft_putstr_len("0X");
 	}
 	if (flag.sign)
 	{
@@ -84,8 +86,9 @@ int	ft_get_flags(const char *format, size_t *i, va_list args)
 	size_t	tmp;
 
 	tmp = *i;
+	//printf("tmp before : %ld\n", tmp);
 	ft_init_flag(&flag);
-	while (ft_flag_charset(format[tmp]) && format[tmp])
+	while (ft_flag_charset(format[tmp]))
 	{
 		if (format[tmp] == '#')
 			flag.hexa = 1;
@@ -96,6 +99,7 @@ int	ft_get_flags(const char *format, size_t *i, va_list args)
 		tmp++;
 	}
 	*i = tmp;
+	//printf("format : %c\n", format[tmp]);
 	return (ft_parse_input(format[tmp], args, flag));
 }
 
@@ -111,7 +115,10 @@ int	ft_printf(const char *format, ...)
 	while (format[i])
 	{
 		if (format[i] == '%')
-			count += ft_get_flags(&format[++i], &i, args);
+		{
+			i++;
+			count += ft_get_flags(format, &i, args);
+		}
 		else
 			count += ft_putchar_len(format[i]);
 		i++;

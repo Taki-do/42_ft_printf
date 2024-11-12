@@ -6,7 +6,7 @@
 /*   By: taomalbe <taomalbe@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 13:09:20 by taomalbe          #+#    #+#             */
-/*   Updated: 2024/11/11 16:34:18 by taomalbe         ###   ########.fr       */
+/*   Updated: 2024/11/12 11:22:36 by taomalbe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include <stdarg.h>
 # include <unistd.h>
 # include <stdlib.h>
+
+# include <stdio.h>
 
 typedef struct s_flag
 {
