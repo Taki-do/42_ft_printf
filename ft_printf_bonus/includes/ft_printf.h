@@ -45,5 +45,6 @@ int		ft_put_flags(t_flag flag, const char format, int count);
 int		ft_atoi_len(const char *str, size_t *tmp);
 int		ft_putstr_flag(const char *str, t_flag flag, const char format);
 int		ft_put_combflags(t_flag flag, const char format, int count);
+int		ft_is_flags(t_flag flag);
 
 #endif

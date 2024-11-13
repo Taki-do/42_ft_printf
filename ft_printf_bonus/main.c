@@ -5,8 +5,8 @@ int	main(void)
 	int	one;
 	int	two;
 
-	one = ft_printf("My : %-10.1s\n", "-42");
-	two = printf("Re : %-10.1s\n", "-42");
+	one = ft_printf("%-.09s\n", "test");
+	two = printf("%-.09s\n", "test");
 
 	printf("My printf = %d\n", one);
 	printf("Re printf = %d\n", two);

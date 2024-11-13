@@ -94,18 +94,18 @@ int	ft_put_combflags(t_flag flag, const char format, int count)
 	int	tmp;
 
 	cnt = 0;
-	if (flag.align)
-	{
-		tmp = count;
-		while ((flag.number - tmp++) > 0)
-				cnt += ft_putchar_len(' ');
-	}
-		flag.zero = 0;
 	if (flag.minwid)
 	{
 		tmp = count;
 		while ((flag.minwid - tmp++) > 0)
 				cnt += ft_putchar_len(' ');
+	}
+	else if (flag.align)
+	{
+		tmp = count;
+		while ((flag.number - tmp++) > 0)
+				cnt += ft_putchar_len(' ');
+		flag.zero = 0;
 	}
 	if (flag.precise)
 	{
@@ -113,8 +113,7 @@ int	ft_put_combflags(t_flag flag, const char format, int count)
 			|| format == 'X' || format == 's')
 		{
 			if (!flag.number)
-				
-			flag.zero = 0;
+				flag.zero = 0;
 		}
 	}
 	if (flag.zero)
@@ -141,7 +140,7 @@ int	ft_is_flags(t_flag flag)
 int	ft_is_var(const char c)
 {
 	if (c == 'c' || c == 's' || c == 'p' || c == 'd' || c == 'i'
-		|| c == 'u' || c == 'x' || c == 'X')
+		|| c == 'u' || c == 'x' || c == 'X' || c == '%')
 		return (1);
 	return (0);
 }
@@ -158,7 +157,7 @@ int	ft_get_flags(const char *format, size_t *i, va_list args)
 		if (format[tmp] == '-')
 			flag.align = 1;
 		if ((format[tmp] >= '1' && format[tmp] <= '9') && (!ft_is_flags(flag) || flag.align)
-			&& !flag.minwid)
+			&& !flag.minwid && !flag.precise)
 			flag.minwid = ft_atoi_len(format + tmp, &tmp);
 		if ((format[tmp] >= '1' && format[tmp] <= '9') && ft_is_flags(flag))
 			flag.number = ft_atoi_len(format + tmp, &tmp);
@@ -174,11 +173,14 @@ int	ft_get_flags(const char *format, size_t *i, va_list args)
 			flag.precise = 1;
 		tmp++;
 	}
-	tmp--;
-	while (!ft_is_var(format[tmp]) && format[tmp])
-		tmp++;
+	if (ft_is_flags(flag))
+	{
+		tmp--;
+		while (!ft_is_var(format[tmp]) && format[tmp])
+			tmp++;
+	}
 	*i = tmp;
-	//printf("format : %c\n", format[tmp]);
+	//printf("minwid : %d\n", flag.minwid);
 	return (ft_parse_input(format[tmp], args, flag));
 }
 

@@ -64,22 +64,114 @@ int	ft_putstr_flag(const char *str, t_flag flag, const char format)
 
 	i = 0;
 	cnt = 0;
-	//printf("flag.minwid = %d\n", flag.minwid);
 	if (!str)
-		cnt = ft_put_flags(flag, format, 0);
+	{
+		if (flag.precise && !flag.align)
+		{
+			if (flag.number >= 6)
+			{
+				cnt += ft_put_flags(flag, format, 6);
+				cnt += ft_putstr_len(str);
+			}
+			else if (flag.minwid >= 6)
+				cnt += ft_put_flags(flag, format, 0);
+			else
+			{
+				cnt += ft_put_flags(flag, format, 0);
+				cnt += ft_putstr_len("");
+			}
+		}
+		else if (flag.align)
+		{
+			if (flag.minwid && !flag.number && flag.precise && !flag.align)
+				flag.number = flag.minwid;
+			if (flag.minwid >= 6)
+			{
+				if (flag.precise)
+				{
+					if (flag.number >= 6)
+					{
+						cnt += ft_putstr_len(str);
+						cnt += ft_put_flags(flag, format, 6);
+					}
+					else
+					{
+						cnt += ft_put_flags(flag, format, 0);
+						cnt += ft_putstr_len("");
+					}
+				}
+				else
+				{
+					cnt += ft_putstr_len(str);
+					cnt += ft_put_flags(flag, format, 6);
+				}
+			}
+			else if (flag.number >= 6)
+			{
+				cnt += ft_put_flags(flag, format, 6);
+				cnt += ft_putstr_len(str);
+			}
+			else if ((flag.align || !ft_is_flags(flag)) && !flag.minwid)
+			{
+				if (flag.precise)
+				{
+					cnt += ft_put_flags(flag, format, 0);
+					cnt += ft_putstr_len("");
+				}
+				else
+				{
+					cnt += ft_putstr_len(str);
+					cnt += ft_put_flags(flag, format, 6);
+				}
+			}
+			else if ((flag.align || !ft_is_flags(flag)) && flag.minwid)
+			{
+				if (flag.precise)
+				{
+					cnt += ft_put_flags(flag, format, 0);
+					cnt += ft_putstr_len("");
+				}
+				else
+				{
+					cnt += ft_putstr_len(str);
+					cnt += ft_put_flags(flag, format, 6);
+				}
+			}
+			else
+			{
+				cnt += ft_put_flags(flag, format, 0);
+				cnt += ft_putstr_len("");
+			}
+		}
+		else
+		{
+			cnt += ft_put_flags(flag, format, 6);
+			cnt += ft_putstr_len(str);
+		}
+		return(cnt);
+	}
+	else if (flag.minwid && flag.align && !flag.number)
+	{
+		if (flag.precise)
+			return (ft_put_flags(flag, format, 0));
+		return (ft_putstr_len(str) + ft_put_flags(flag, format, ft_strlen(str)));
+	}
 	else if (!flag.precise)
 		cnt = ft_put_flags(flag, format, ft_strlen(str));
 	else if (!flag.number)
 		cnt = ft_put_flags(flag, format, 0);
-	if (flag.number && flag.precise)
+	else if (flag.number && flag.precise)
 	{
 		if ((size_t)flag.number > ft_strlen(str))
 			flag.number = ft_strlen(str);
+		if (!flag.align)
+			cnt = ft_put_flags(flag, format, flag.number);
 		while (str[i] && i < flag.number)
 			ft_putchar(str[i++]);
-		cnt = ft_put_flags(flag, format, flag.number);
+		if (flag.align)
+			cnt = ft_put_flags(flag, format, flag.number);
 	}
-	while (str[i] && !flag.align && !flag.precise)
+	while (str[i] && !flag.precise)
 		ft_putchar(str[i++]);
 	return (cnt + i);
 }
@@ -90,7 +182,10 @@ int	ft_putstr_len(const char *str)
 
 	i = 0;
 	if (!str)
-		return (ft_putstr_len("(null)"));
+	{
+		ft_putstr("(null)");
+		return (6);
+	}
 	while (str[i])
 		ft_putchar(str[i++]);
 	return (i);
